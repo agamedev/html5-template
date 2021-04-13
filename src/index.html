@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>FREE HTML5 Game Template · aGamedev.com</title>
+<style type="text/css">
+/* Paddings and Margings */
+html, head, body{
+	padding: 0; margin: 0;
+}
+
+header, main, footer{
+	padding: 1%;
+}
+
+h1, h2, img.logo, .start, .actions ul li{
+	padding: 0; margin:0;
+}
+
+img.logo{
+	margin-right: 1%;
+}
+
+.start{
+	margin-top: 1%;
+
+}
+
+/* Positions */
+header, main, footer, img.logo{
+	position: relative;
+}
+
+img.logo{
+	float: left;
+}
+
+header::after, article p::after, .clr{
+	clear: both;
+}
+
+
+/* Backgound colors */
+body{
+	background-color: #FFFFFF;
+}
+
+body.dark{
+	background-color: #241C1C;
+}
+
+.big-button{
+	background-color: #CCCCCC;
+}
+
+
+/* Fonts */
+body{
+	font-family:  "Gill Sans", sans-serif;
+}
+
+h1{
+	line-height: 64px;
+}
+
+
+h1 span{
+	font-size: 60%;
+}
+
+footer{
+	 font-size: 86%;
+}
+
+p.about{
+	font-size: 90%;
+}
+
+a{
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a:hover{
+	text-decoration: underline;
+}
+
+.big-button:hover{
+	text-decoration: none;
+}
+
+/* Foreground colors */
+body{
+	color: #333;
+}
+body.dark{
+	color: #EFEFEF;
+}
+a, h1{
+	color: #FF0066;
+}
+
+.big-button{
+	color: #333;
+}
+
+/* Other */
+main{
+	display: block;
+}
+
+h1 span{
+	display: block;
+}
+
+.big-button{
+	display: inline;
+	position: relative;
+	line-height: 16px;
+	margin: 0;
+	padding: 12px;
+	text-decoration: none;
+	
+	border-top: 2px solid #333;
+	border-left: 2px solid #333;
+	border-bottom: 2px solid #EFEFEF;
+	border-right: 2px solid #EFEFEF;
+}
+
+.big-button img{
+	width: 32px;
+	height: 32px;
+	padding:0; 
+	margin-right: 6px;
+	position: relative;
+	float: left;
+
+}
+
+.game{
+	width: 1024px;
+	height: 576px;
+	background-color: #000;
+}
+
+.actions ul{
+	list-style: none;
+	margin-bottom:12px;
+}
+
+.actions ul li{
+	display: block;
+	margin-top:12px;
+}
+
+canvas{
+	cursor: url(cursor.svg), auto;
+}
+</style>
+<script type="text/javascript"></script>
+</head>
+<body class="dark">
+	<header>
+		<h1>FREE HTML5 Game Template</h1>
+		<h2>WORK hard. PLAY hard.</h2>
+	</header>
+	<main>
+		<article>
+		<canvas id="gameCanvas" class="game" tabindex="1" onblur="return this.focus();"></canvas>
+		</article>
+	</main>
+	<footer>
+		<p class="copyright">Copyright &copy; - This is free and unencumbered software released into the public domain under <a href="https://unlicense.org" class="license">The Unlicense</a> by <a href="https://agamedev.com" class="license">aGamedev.com</a>
+		</p></footer>
+	<script type="text/javascript">
+	
+	var el = function( eId ){ return document.getElementById(eId);	}
+	
+	var gData = {};
+	var gDb = {};
+	var gDBOpenReq = null;
+	
+	var SetGlobalData = function(key, dat){
+		gData[key] = dat;
+	}
+	
+	var GetGlobalData = function(key, dat){
+		return gData[key];
+	}
+	
+	SetGlobalData("TxtPublisher",	"The Publisher");
+	SetGlobalData("TxtPresents", "Presents");
+	SetGlobalData("TxtGameDeveloper", "The GameDev");
+	SetGlobalData("TxtGameName", "The Game");
+	
+	SetGlobalData("FontSizePrimary", 46);
+	SetGlobalData("FontSizeSecondary", 32);
+	SetGlobalData("FontSizeTertiary", 24);
+	
+	SetGlobalData("ColorPrimary", "#FF0066");
+	SetGlobalData("ColorSecondary", "#A3BA61");
+	SetGlobalData("ColorTertiary", "#FF9900");
+	
+	SetGlobalData("MainMenu", [
+		{ 
+			'Text': "Start Game", 
+			'Box': { 'width':0,'height':0,'left':0,'top':0 },
+			'DrawBullets': false
+		},
+		{ 
+			'Text': "Settings", 
+			'Box': { 'width':0, 'height':0, 'left':0, 'top':0 },
+			'DrawBullets': false
+		},
+		{
+			'Text': "Credits", 
+			'Box': { 'width':0, 'height':0, 'left':0,'top':0 },
+			'DrawBullets': false
+		}
+	]);
+	
+	
+	var gCanvas = el("gameCanvas");
+	
+	gCanvas.style.cursor = 'none';
+	
+	var iCanvasWidth = 1024;
+	gCanvas.width = iCanvasWidth;
+		
+	var iCanvasHeight = 576;
+	gCanvas.height = iCanvasHeight;
+	
+	gCanvas.addEventListener('click', (e) => {
+		var cPos = {
+			x: e.offsetX,
+			y: e.offsetY
+		 };
+		 
+		var screen = GetGlobalData("activeScreen");
+		
+		switch(screen){
+			case 4: {
+				ClickScreen4(cPos);
+			}break;
+			case 1: case 2: case 3: default: break;
+		}
+	});
+	
+	gCanvas.addEventListener('mousemove', (e) => {
+		var cPos = {
+			x: e.offsetX,
+			y: e.offsetY
+		 };
+		 
+		var screen = GetGlobalData("activeScreen");
+		
+		switch(screen){
+			case 4: {
+				MoveScreen4(cPos);
+			}break;
+			case 1: case 2: case 3: default: break;
+		}
+	});
+	
+	var gCtx = gCanvas.getContext("2d");
+	
+	var GameDrawScreen = function(){
+		var screen = GetGlobalData("activeScreen");
+		
+		switch(screen){
+			case 1: {
+				GameDrawScreen1();
+			}break;
+			case 2: {
+				GameDrawScreen2();
+			}break;
+			case 3: {
+				GameDrawScreen3();
+			}break;
+			case 4: {
+				GameDrawScreen4();
+			}break;
+			default: break;
+		}
+	}
+	
+	var GameDrawScreen1 = function(){
+		
+		//The Publisher Name ... Presents
+		//Text for now.
+		//TODO: Logo as Img
+		
+		var txtPublisher = GetGlobalData("TxtPublisher");
+		var fsPublisher = GetGlobalData("animFontSize1");
+		
+		var txtPresents  = GetGlobalData("TxtPresents");
+		var fsPresents = GetGlobalData("animFontSize2");
+
+		gCtx.fillStyle = GetGlobalData("ColorSecondary");
+		
+		SetGlobalData("animFontSize1",fsPublisher+1);
+		SetGlobalData("animFontSize2",fsPresents+1);
+		
+		gCtx.font = fsPublisher + "px Arial";
+		var tmPublisher = gCtx.measureText(txtPublisher); // TextMetrics object
+		var tPos = {x: (iCanvasWidth-tmPublisher.width)/2, y:  ( iCanvasHeight - fsPublisher )/2 };
+		gCtx.fillText( txtPublisher, tPos.x, tPos.y );
+		
+		gCtx.font = fsPresents + "px Arial";
+		var tmPresents = gCtx.measureText(txtPresents); // TextMetrics object
+		tPos = {x: (iCanvasWidth-tmPresents.width)/2, y:  ( iCanvasHeight + (fsPublisher+fsPresents) )/2 };
+		gCtx.fillText( txtPresents, tPos.x, tPos.y );
+		
+		if(fsPublisher > 100){
+			SetGlobalData("animFontSize1",GetGlobalData("FontSizePrimary"));
+			SetGlobalData("activeScreen",2);
+		}
+	}
+	
+	var GameDrawScreen2 = function(){
+	
+		//The Game Developer Name
+		//Text for now.
+		//TODO: Logo as Img
+		
+		var fsGameDeveloper = GetGlobalData("animFontSize1");
+
+		gCtx.fillStyle = GetGlobalData("ColorSecondary");
+		
+		SetGlobalData("animFontSize1",fsGameDeveloper+1);
+		
+		gCtx.font = fsGameDeveloper + "px Arial";
+		
+		var txtGameDeveloper = GetGlobalData("TxtGameDeveloper");
+		var tmGameDeveloper = gCtx.measureText(txtGameDeveloper); // TextMetrics object
+		var tPos = {x: (iCanvasWidth-tmGameDeveloper.width)/2, y:  ( iCanvasHeight + fsGameDeveloper )/2 };
+		gCtx.fillText( txtGameDeveloper, tPos.x, tPos.y );
+		
+		if(fsGameDeveloper > 100){
+			SetGlobalData("animFontSize1",GetGlobalData("FontSizePrimary"));
+			SetGlobalData("activeScreen",3);
+		}
+		
+	}
+	
+	var GameDrawScreen3 = function(){
+		
+		//The Game Name
+		//The main menu
+
+		gCanvas.style.cursor = ''; //show cursor
+		
+		var fsTmpTimer = GetGlobalData("animFontSize1");
+		SetGlobalData("animFontSize1",fsTmpTimer+1);
+		
+		var fsGameText = GetGlobalData("FontSizePrimary");
+
+		gCtx.fillStyle = GetGlobalData("ColorPrimary");
+		
+		gCtx.font = fsGameText + "px Arial";
+		
+		var txtGameName = GetGlobalData("TxtGameName");
+		var tmGameName = gCtx.measureText(txtGameName); // TextMetrics object
+		var tPos = {x: (iCanvasWidth-tmGameName.width)/2, y:  (( iCanvasHeight + fsGameText )/2) - fsGameText };
+		gCtx.fillText( txtGameName, tPos.x, tPos.y );
+		
+		tPos.y += (fsGameText*2);
+		
+		if(fsTmpTimer > 100){
+			SetGlobalData("animFontSize1",GetGlobalData("FontSizePrimary"));
+			SetGlobalData("activeScreen",4);
+		}
+		
+		GameInitIndexedDB();
+				
+	}
+	
+	var GameDrawScreen4 = function(){
+		
+		//The Game Name
+		//Text for now.
+		//TODO: Logo
+		gCanvas.style.cursor = ''; //show cursor
+		
+		var fsGameText = GetGlobalData("FontSizePrimary");
+
+		gCtx.fillStyle = GetGlobalData("ColorPrimary");
+		
+		gCtx.font = fsGameText + "px Arial";
+		
+		var txtGameName = GetGlobalData("TxtGameName");
+		var tmGameName = gCtx.measureText(txtGameName); // TextMetrics object
+		var tPos = {x: (iCanvasWidth-tmGameName.width)/2, y:  (( iCanvasHeight + fsGameText )/3) - fsGameText };
+		gCtx.fillText( txtGameName, tPos.x, tPos.y );
+		
+		tPos = {x: (iCanvasWidth-tmGameName.width)/2, y:  (( iCanvasHeight + fsGameText )/2) - fsGameText };
+		tPos.y += (fsGameText*2);
+		
+		GameDrawMainMenu(tPos);
+				
+	}
+	
+	var GameDrawMainMenu = function(tPos){
+	
+		var MainMenu = 	GetGlobalData("MainMenu");
+	
+		var fsMenuItem = GetGlobalData("FontSizeTertiary");
+		
+		gCtx.font = fsMenuItem + "px Arial";
+		
+		for(i = 0; i< MainMenu.length; i++){
+		
+			gCtx.fillStyle = GetGlobalData("ColorPrimary");
+		
+			var txtMenuItem = MainMenu[i];
+			
+			var tmMenuItem = gCtx.measureText(txtMenuItem.Text); // TextMetrics object
+			
+			txtMenuItem.Box.width = tmMenuItem.width;
+			txtMenuItem.Box.height = fsMenuItem;
+			
+			var miPos = {x: (iCanvasWidth-txtMenuItem.Box.width)/2, y:  tPos.y + (fsMenuItem*(i*2))  };
+			
+			gCtx.fillText( txtMenuItem.Text, miPos.x, miPos.y );
+			
+			txtMenuItem.Box.left = miPos.x;// - txtMenuItem.Box.width;
+			txtMenuItem.Box.top = miPos.y - txtMenuItem.Box.height;
+			
+			if(txtMenuItem.DrawBullets){
+				BulletLeft = {x:txtMenuItem.Box.left - (txtMenuItem.Box.height*2),y: txtMenuItem.Box.top, w:txtMenuItem.Box.height}
+				BulletRight = {x:txtMenuItem.Box.left + txtMenuItem.Box.width + txtMenuItem.Box.height, y: txtMenuItem.Box.top, w:txtMenuItem.Box.height}
+				DrawMenuBullet ( BulletLeft );
+				DrawMenuBullet ( BulletRight );
+			}
+			
+		}
+		
+	}
+	
+	var ClickScreen4 = function(cPos){
+		console.log(cPos.x);
+		console.log(cPos.y);
+		var MainMenu = 	GetGlobalData("MainMenu");
+		//TODO:
+	}
+	
+	var MoveScreen4 = function(cPos){
+
+		var MainMenu = 	GetGlobalData("MainMenu");
+
+		for(i = 0; i< MainMenu.length; i++){
+		
+			var txtMenuItem = MainMenu[i];
+			var HitX = false;
+			var HitY = false;
+			if(cPos.x > txtMenuItem.Box.left){
+				if(cPos.x < txtMenuItem.Box.left+txtMenuItem.Box.width){
+					HitX = true;
+				}
+			}
+			if(cPos.y > MainMenu[i].Box.top){
+				if(cPos.y < txtMenuItem.Box.top+txtMenuItem.Box.height){
+					HitY = true;
+				}
+			}
+			txtMenuItem.DrawBullets = false;
+			if(HitX && HitY){			
+				txtMenuItem.DrawBullets = true;				
+			}
+		}
+	}
+	
+	var DrawMenuBullet = function ( BulletPosition ){
+		//var acontext = GameCanvas.getContext("2d");
+				
+		gCtx.beginPath();
+		
+		gCtx.fillStyle =  GetGlobalData("ColorPrimary");
+		gCtx.strokeStyle = GetGlobalData("ColorPrimary");
+		
+		gCtx.moveTo( BulletPosition.x + (BulletPosition.w/2) , BulletPosition.y);
+		gCtx.lineTo( BulletPosition.x + BulletPosition.w, BulletPosition.y + (BulletPosition.w/2) );
+		gCtx.lineTo( BulletPosition.x + (BulletPosition.w/2), BulletPosition.y + BulletPosition.w );
+		gCtx.lineTo( BulletPosition.x, BulletPosition.y + (BulletPosition.w/2) );
+		gCtx.lineTo( BulletPosition.x + (BulletPosition.w/2) , BulletPosition.y );
+		
+		gCtx.fill();
+		gCtx.stroke();
+		
+		gCtx.closePath();
+	}
+	
+	var GameInit = function(){
+		SetGlobalData("animFontSize1",GetGlobalData("FontSizePrimary"));
+		SetGlobalData("animFontSize2",GetGlobalData("FontSizeSecondary"));
+		SetGlobalData("activeScreen",1);
+	}
+	
+	var GameInitIndexedDB = function(){
+		
+		//Create indexDB entries for device identifier (just some random number at the moment) 
+		// and persistent keyboard bindings
+		if(gDBOpenReq == null){
+			window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+			window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+			window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+			
+			var GameName = GetGlobalData("TxtGameName");
+			
+			GameName = GameName.replace(" ",".");
+			GameName = GameName.toLocaleLowerCase();
+			
+			gDBOpenReq = window.indexedDB.open(GameName,1);
+			
+			gDBOpenReq.onupgradeneeded = function(event) {
+				gDb = event.target.result;
+				var dboStore = gDb.createObjectStore("device", { keyPath: "id" });
+			}
+
+			gDBOpenReq.onerror = function(event) {
+				console.log("Error opening db " + GameName);
+			};
+
+			gDBOpenReq.onsuccess = function(event) {
+				console.log("DB " + GameName +" opened");
+				gDb = event.target.result;
+				
+				//check id value
+				var dboTran = gDb.transaction("device","readonly");
+				var dboStore = dboTran.objectStore("device");
+				var dboCursor = dboStore.openCursor();
+				dboCursor.onsuccess = function(curEvent) {
+					//return device id from store
+					var did = null;
+					var field = curEvent.target.result;
+					if(field != null){
+						did = field.value.id;
+						console.log("Device Id:" + did);
+					}
+
+					if(did == null){
+						console.log("Set new DeviceID");
+						var didMax = 99;
+						did = Math.floor(Math.random() * didMax);
+						//SaveDeviceID();
+						var dboDIDTran = gDb.transaction("device","readwrite");
+						var dboDIDStore = dboDIDTran.objectStore("device");
+						var objDIDStoreRequest = dboDIDStore.add({id:did});
+
+						objDIDStoreRequest.onsuccess = function(event) {
+							console.log( "DeviceID" + did + " saved");
+						};
+						
+						//TODO: Set default bindings
+
+					}
+				}
+			}
+			
+		}
+	}
+	
+	var GameClearCanvas = function(){
+		gCtx.fillStyle = "#000000";				
+		gCtx.fillRect(0,0,iCanvasWidth,iCanvasHeight);
+	}
+	
+	var GameUpdate = function(){
+		GameClearCanvas();
+		GameDrawScreen();
+	}
+	
+	GameInit();
+	
+	//Game Loop
+	var intervalId = setInterval(function(){
+		GameUpdate();
+	}, 33.33); //Loop about 30 times per second ( 1,000/30 )
+	
+	</script>
+</body>
+</html>
