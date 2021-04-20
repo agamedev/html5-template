@@ -513,7 +513,14 @@ canvas{
 			
 			gDBOpenReq.onupgradeneeded = function(event) {
 				gDb = event.target.result;
-				var dboStore = gDb.createObjectStore("device", { keyPath: "id" });
+				var dboStore = gDb.createObjectStore("PlayerBindings", { keyPath: "id" });
+				
+				dboStore.createIndex("player", "player", { unique: true });
+				dboStore.createIndex("moveUp", "moveUp", { unique: true });
+				dboStore.createIndex("moveDown", "moveDown", { unique: true });
+				dboStore.createIndex("moveLeft", "moveLeft", { unique: true });
+				dboStore.createIndex("moveRight", "moveRight", { unique: true });
+				
 			}
 
 			gDBOpenReq.onerror = function(event) {
@@ -525,8 +532,8 @@ canvas{
 				gDb = event.target.result;
 				
 				//check id value
-				var dboTran = gDb.transaction("device","readonly");
-				var dboStore = dboTran.objectStore("device");
+				var dboTran = gDb.transaction("PlayerBindings","readonly");
+				var dboStore = dboTran.objectStore("PlayerBindings");
 				var dboCursor = dboStore.openCursor();
 				dboCursor.onsuccess = function(curEvent) {
 					//return device id from store
@@ -535,22 +542,24 @@ canvas{
 					if(field != null){
 						did = field.value.id;
 						console.log("Device Id:" + did);
+						console.log(field);
 					}
 
 					if(did == null){
-						console.log("Set new DeviceID");
-						var didMax = 99;
-						did = Math.floor(Math.random() * didMax);
-						//SaveDeviceID();
-						var dboDIDTran = gDb.transaction("device","readwrite");
-						var dboDIDStore = dboDIDTran.objectStore("device");
-						var objDIDStoreRequest = dboDIDStore.add({id:did});
+					
+						//Set default bindings
 
+						var dboDIDTran = gDb.transaction("PlayerBindings","readwrite");
+						var dboDIDStore = dboDIDTran.objectStore("PlayerBindings");
+						var objDIDStoreRequest = dboDIDStore.add({ id: 1, player: "player1", moveUp: 87, moveDown: 83, moveLeft: 65, moveRight: 68 });
+						var objDIDStoreRequest = dboDIDStore.add({ id: 2, player: "player2", moveUp: 38, moveDown: 40, moveLeft: 37, moveRight: 39 });
+
+						
 						objDIDStoreRequest.onsuccess = function(event) {
-							console.log( "DeviceID" + did + " saved");
+							console.log( "Default Key Bindings saved");
 						};
 						
-						//TODO: Set default bindings
+
 
 					}
 				}
