@@ -1,4 +1,27 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!--
+This is free and unencumbered software released into the public domain.
+
+Anyone is free to copy, modify, publish, use, compile, sell, or
+distribute this software, either in source code form or as a compiled
+binary, for any purpose, commercial or non-commercial, and by any
+means.
+
+In jurisdictions that recognize copyright laws, the author or authors
+of this software dedicate any and all copyright interest in the
+software to the public domain. We make this dedication for the benefit
+of the public at large and to the detriment of our heirs and
+successors. We intend this dedication to be an overt act of
+relinquishment in perpetuity of all present and future rights to this
+software under copyright law.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+-->
 <html>
 <head>
 <title>FREE HTML5 Game Template · aGamedev.com</title>
@@ -443,6 +466,24 @@ canvas{
 		//TODO:
 	}
 	
+	var MenuHit = function (mMenu, tPos){
+			var HitX = false;
+			var HitY = false;
+			if(tPos.x > mMenu.Box.left){
+				if(tPos.x < mMenu.Box.left+mMenu.Box.width){
+					HitX = true;
+				}
+			}
+			if(tPos.y > mMenu.Box.top){
+				if(tPos.y < mMenu.Box.top+mMenu.Box.height){
+					HitY = true;
+				}
+			}
+			
+			if(HitX && HitY){ return true; }
+			return false;
+	}
+	
 	var MoveScreen4 = function(cPos){
 
 		var MainMenu = 	GetGlobalData("MainMenu");
@@ -450,20 +491,9 @@ canvas{
 		for(i = 0; i< MainMenu.length; i++){
 		
 			var txtMenuItem = MainMenu[i];
-			var HitX = false;
-			var HitY = false;
-			if(cPos.x > txtMenuItem.Box.left){
-				if(cPos.x < txtMenuItem.Box.left+txtMenuItem.Box.width){
-					HitX = true;
-				}
-			}
-			if(cPos.y > MainMenu[i].Box.top){
-				if(cPos.y < txtMenuItem.Box.top+txtMenuItem.Box.height){
-					HitY = true;
-				}
-			}
+			
 			txtMenuItem.DrawBullets = false;
-			if(HitX && HitY){			
+			if(MenuHit(txtMenuItem,cPos)){			
 				txtMenuItem.DrawBullets = true;				
 			}
 		}
