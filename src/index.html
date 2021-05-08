@@ -223,21 +223,66 @@ canvas{
 	SetGlobalData("ColorSecondary", "#A3BA61");
 	SetGlobalData("ColorTertiary", "#FF9900");
 	
+	SetGlobalData("Screens",[
+		{ 
+			"Text": "Reserved",
+			Show: function(){}, 
+			Click: function(cPos){}
+		},{ 
+			"Text": "Publisher Screen",
+			Show: function(){ GameDrawScreen1(); },
+			Click: function(cPos){}
+		},{ 
+			"Text": "Game Developer Screen",
+			Show: function(){ GameDrawScreen2(); }, 
+			Click: function(cPos){}
+		},{ 
+			"Text": "Game Name Screen",
+			Show: function(){ GameDrawScreen3(); }, 
+			Click: function(cPos){}
+		},{ 
+			"Text": "Main Menu",
+			Show: function(){ GameDrawScreen4(); }, 
+			Click: function(cPos){ ClickScreen4(cPos); }
+		}
+		,
+		{ 
+			"Text": "The Game Loop",
+			Show: function(){ GameDrawScreen4(); }, 
+			Click: function(cPos){ ClickScreen4(cPos); }
+		}
+		,
+		{ 
+			"Text": "Settings Screen",
+			Show: function(){ GameDrawScreen4(); }, 
+			Click: function(cPos){ ClickScreen4(cPos); }
+		}
+		,
+		{
+			"Text": "Credits Screen",
+			Show: function(){ GameDrawScreen4(); },
+			Click: function(cPos){ ClickScreen4(cPos); }
+		}
+	]);
+	
 	SetGlobalData("MainMenu", [
 		{ 
 			'Text': "Start Game", 
 			'Box': { 'width':0,'height':0,'left':0,'top':0 },
-			'DrawBullets': false
+			'DrawBullets': false,
+			Click: function(){ GoToStartGameScreen(); }
 		},
 		{ 
 			'Text': "Settings", 
 			'Box': { 'width':0, 'height':0, 'left':0, 'top':0 },
-			'DrawBullets': false
+			'DrawBullets': false,
+			Click : function(){ GoToSettingsScreen(); }
 		},
 		{
 			'Text': "Credits", 
 			'Box': { 'width':0, 'height':0, 'left':0,'top':0 },
-			'DrawBullets': false
+			'DrawBullets': false,
+			Click: function(){ GoToCreditsScreen(); }
 		}
 	]);
 	
@@ -259,13 +304,10 @@ canvas{
 		 };
 		 
 		var screen = GetGlobalData("activeScreen");
+		var screens = GetGlobalData("Screens");
 		
-		switch(screen){
-			case 4: {
-				ClickScreen4(cPos);
-			}break;
-			case 1: case 2: case 3: default: break;
-		}
+		screens[screen].Click(cPos);
+
 	});
 	
 	gCanvas.addEventListener('mousemove', (e) => {
@@ -277,7 +319,7 @@ canvas{
 		var screen = GetGlobalData("activeScreen");
 		
 		switch(screen){
-			case 4: {
+			case 4: case 5: case 6: case 7: {
 				MoveScreen4(cPos);
 			}break;
 			case 1: case 2: case 3: default: break;
@@ -288,22 +330,10 @@ canvas{
 	
 	var GameDrawScreen = function(){
 		var screen = GetGlobalData("activeScreen");
+		var screens = GetGlobalData("Screens");
 		
-		switch(screen){
-			case 1: {
-				GameDrawScreen1();
-			}break;
-			case 2: {
-				GameDrawScreen2();
-			}break;
-			case 3: {
-				GameDrawScreen3();
-			}break;
-			case 4: {
-				GameDrawScreen4();
-			}break;
-			default: break;
-		}
+		screens[screen].Show();
+
 	}
 	
 	var GameDrawScreen1 = function(){
@@ -368,7 +398,8 @@ canvas{
 	var GameDrawScreen3 = function(){
 		
 		//The Game Name
-		//The main menu
+		//Text for now.
+		//TODO: Logo
 
 		gCanvas.style.cursor = ''; //show cursor
 		
@@ -394,14 +425,13 @@ canvas{
 		}
 		
 		GameInitIndexedDB();
-				
+
 	}
 	
 	var GameDrawScreen4 = function(){
-		
 		//The Game Name
-		//Text for now.
-		//TODO: Logo
+		//The main menu
+
 		gCanvas.style.cursor = ''; //show cursor
 		
 		var fsGameText = GetGlobalData("FontSizePrimary");
@@ -419,11 +449,9 @@ canvas{
 		tPos.y += (fsGameText*2);
 		
 		GameDrawMainMenu(tPos);
-				
 	}
 	
 	var GameDrawMainMenu = function(tPos){
-	
 		var MainMenu = 	GetGlobalData("MainMenu");
 	
 		var fsMenuItem = GetGlobalData("FontSizeTertiary");
@@ -456,14 +484,6 @@ canvas{
 			}
 			
 		}
-		
-	}
-	
-	var ClickScreen4 = function(cPos){
-		console.log(cPos.x);
-		console.log(cPos.y);
-		var MainMenu = 	GetGlobalData("MainMenu");
-		//TODO:
 	}
 	
 	var MenuHit = function (mMenu, tPos){
@@ -484,6 +504,20 @@ canvas{
 			return false;
 	}
 	
+	var ClickScreen4 = function(cPos){
+		var MainMenu = 	GetGlobalData("MainMenu");
+
+		for(i = 0; i< MainMenu.length; i++){
+		
+			var txtMenuItem = MainMenu[i];
+
+			if( MenuHit(txtMenuItem,cPos ) ){			
+				txtMenuItem.Click();
+				break;
+			}
+		}
+	}
+	
 	var MoveScreen4 = function(cPos){
 
 		var MainMenu = 	GetGlobalData("MainMenu");
@@ -497,6 +531,26 @@ canvas{
 				txtMenuItem.DrawBullets = true;				
 			}
 		}
+	}
+	
+	var GoToStartGameScreen = function(){
+
+		alert('TODO:StartGameScreen');
+		SetGlobalData("activeScreen",5);
+
+	}
+
+	var GoToSettingsScreen = function(){
+
+		alert('TODO:SettingsScreen');
+		SetGlobalData("activeScreen",6);
+
+	}
+	var GoToCreditsScreen = function(){
+
+		alert('TODO:CreditsScreen');
+		SetGlobalData("activeScreen",7);
+
 	}
 	
 	var DrawMenuBullet = function ( BulletPosition ){
