@@ -25,160 +25,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 <html>
 <head>
 <title>FREE HTML5 Game Template · aGamedev.com</title>
-<style type="text/css">
-/* Paddings and Margings */
-html, head, body{
-	padding: 0; margin: 0;
-}
-
-header, main, footer{
-	padding: 1%;
-}
-
-h1, h2, img.logo, .start, .actions ul li{
-	padding: 0; margin:0;
-}
-
-img.logo{
-	margin-right: 1%;
-}
-
-.start{
-	margin-top: 1%;
-
-}
-
-/* Positions */
-header, main, footer, img.logo{
-	position: relative;
-}
-
-img.logo{
-	float: left;
-}
-
-header::after, article p::after, .clr{
-	clear: both;
-}
-
-
-/* Backgound colors */
-body{
-	background-color: #FFFFFF;
-}
-
-body.dark{
-	background-color: #241C1C;
-}
-
-.big-button{
-	background-color: #CCCCCC;
-}
-
-
-/* Fonts */
-body{
-	font-family:  "Gill Sans", sans-serif;
-}
-
-h1{
-	line-height: 64px;
-}
-
-
-h1 span{
-	font-size: 60%;
-}
-
-footer{
-	 font-size: 86%;
-}
-
-p.about{
-	font-size: 90%;
-}
-
-a{
-	font-weight: bold;
-	text-decoration: none;
-}
-
-a:hover{
-	text-decoration: underline;
-}
-
-.big-button:hover{
-	text-decoration: none;
-}
-
-/* Foreground colors */
-body{
-	color: #333;
-}
-body.dark{
-	color: #EFEFEF;
-}
-a, h1{
-	color: #FF0066;
-}
-
-.big-button{
-	color: #333;
-}
-
-/* Other */
-main{
-	display: block;
-}
-
-h1 span{
-	display: block;
-}
-
-.big-button{
-	display: inline;
-	position: relative;
-	line-height: 16px;
-	margin: 0;
-	padding: 12px;
-	text-decoration: none;
-	
-	border-top: 2px solid #333;
-	border-left: 2px solid #333;
-	border-bottom: 2px solid #EFEFEF;
-	border-right: 2px solid #EFEFEF;
-}
-
-.big-button img{
-	width: 32px;
-	height: 32px;
-	padding:0; 
-	margin-right: 6px;
-	position: relative;
-	float: left;
-
-}
-
-.game{
-	width: 1024px;
-	height: 576px;
-	background-color: #000;
-}
-
-.actions ul{
-	list-style: none;
-	margin-bottom:12px;
-}
-
-.actions ul li{
-	display: block;
-	margin-top:12px;
-}
-
-canvas{
-	cursor: url(cursor.svg), auto;
-}
-</style>
+<link href="styles/game.min.css?v0.001" rel="stylesheet" type="text/css" />
 <script type="text/javascript"></script>
 </head>
 <body class="dark">
@@ -196,17 +43,17 @@ canvas{
 		</p></footer>
 	<script type="text/javascript">
 	
-	var el = function( eId ){ return document.getElementById(eId);	}
+	let el = function( eId ){ return document.getElementById(eId);	}
 	
-	var gData = {};
-	var gDb = {};
-	var gDBOpenReq = null;
+	let gData = {};
+	let gDb = {};
+	let gDBOpenReq = null;
 	
-	var SetGlobalData = function(key, dat){
+	let SetGlobalData = function(key, dat){
 		gData[key] = dat;
 	}
 	
-	var GetGlobalData = function(key, dat){
+	let GetGlobalData = function(key, dat){
 		return gData[key];
 	}
 	
@@ -287,36 +134,36 @@ canvas{
 	]);
 	
 	
-	var gCanvas = el("gameCanvas");
+	let gCanvas = el("gameCanvas");
 	
 	gCanvas.style.cursor = 'none';
 	
-	var iCanvasWidth = 1024;
+	let iCanvasWidth = 1024;
 	gCanvas.width = iCanvasWidth;
 		
-	var iCanvasHeight = 576;
+	let iCanvasHeight = 576;
 	gCanvas.height = iCanvasHeight;
 	
 	gCanvas.addEventListener('click', (e) => {
-		var cPos = {
+		let cPos = {
 			x: e.offsetX,
 			y: e.offsetY
 		 };
 		 
-		var screen = GetGlobalData("activeScreen");
-		var screens = GetGlobalData("Screens");
+		let screen = GetGlobalData("activeScreen");
+		let screens = GetGlobalData("Screens");
 		
 		screens[screen].Click(cPos);
 
 	});
 	
 	gCanvas.addEventListener('mousemove', (e) => {
-		var cPos = {
+		let cPos = {
 			x: e.offsetX,
 			y: e.offsetY
 		 };
 		 
-		var screen = GetGlobalData("activeScreen");
+		let screen = GetGlobalData("activeScreen");
 		
 		switch(screen){
 			case 4: case 5: case 6: case 7: {
@@ -326,27 +173,27 @@ canvas{
 		}
 	});
 	
-	var gCtx = gCanvas.getContext("2d");
+	let gCtx = gCanvas.getContext("2d");
 	
-	var GameDrawScreen = function(){
-		var screen = GetGlobalData("activeScreen");
-		var screens = GetGlobalData("Screens");
+	let GameDrawScreen = function(){
+		let screen = GetGlobalData("activeScreen");
+		let screens = GetGlobalData("Screens");
 		
 		screens[screen].Show();
 
 	}
 	
-	var GameDrawScreen1 = function(){
+	let GameDrawScreen1 = function(){
 		
 		//The Publisher Name ... Presents
 		//Text for now.
 		//TODO: Logo as Img
 		
-		var txtPublisher = GetGlobalData("TxtPublisher");
-		var fsPublisher = GetGlobalData("animFontSize1");
+		let txtPublisher = GetGlobalData("TxtPublisher");
+		let fsPublisher = GetGlobalData("animFontSize1");
 		
-		var txtPresents  = GetGlobalData("TxtPresents");
-		var fsPresents = GetGlobalData("animFontSize2");
+		let txtPresents  = GetGlobalData("TxtPresents");
+		let fsPresents = GetGlobalData("animFontSize2");
 
 		gCtx.fillStyle = GetGlobalData("ColorSecondary");
 		
@@ -354,12 +201,12 @@ canvas{
 		SetGlobalData("animFontSize2",fsPresents+1);
 		
 		gCtx.font = fsPublisher + "px Arial";
-		var tmPublisher = gCtx.measureText(txtPublisher); // TextMetrics object
-		var tPos = {x: (iCanvasWidth-tmPublisher.width)/2, y:  ( iCanvasHeight - fsPublisher )/2 };
+		let tmPublisher = gCtx.measureText(txtPublisher); // TextMetrics object
+		let tPos = {x: (iCanvasWidth-tmPublisher.width)/2, y:  ( iCanvasHeight - fsPublisher )/2 };
 		gCtx.fillText( txtPublisher, tPos.x, tPos.y );
 		
 		gCtx.font = fsPresents + "px Arial";
-		var tmPresents = gCtx.measureText(txtPresents); // TextMetrics object
+		let tmPresents = gCtx.measureText(txtPresents); // TextMetrics object
 		tPos = {x: (iCanvasWidth-tmPresents.width)/2, y:  ( iCanvasHeight + (fsPublisher+fsPresents) )/2 };
 		gCtx.fillText( txtPresents, tPos.x, tPos.y );
 		
@@ -369,13 +216,13 @@ canvas{
 		}
 	}
 	
-	var GameDrawScreen2 = function(){
+	let GameDrawScreen2 = function(){
 	
 		//The Game Developer Name
 		//Text for now.
 		//TODO: Logo as Img
 		
-		var fsGameDeveloper = GetGlobalData("animFontSize1");
+		let fsGameDeveloper = GetGlobalData("animFontSize1");
 
 		gCtx.fillStyle = GetGlobalData("ColorSecondary");
 		
@@ -383,9 +230,9 @@ canvas{
 		
 		gCtx.font = fsGameDeveloper + "px Arial";
 		
-		var txtGameDeveloper = GetGlobalData("TxtGameDeveloper");
-		var tmGameDeveloper = gCtx.measureText(txtGameDeveloper); // TextMetrics object
-		var tPos = {x: (iCanvasWidth-tmGameDeveloper.width)/2, y:  ( iCanvasHeight + fsGameDeveloper )/2 };
+		let txtGameDeveloper = GetGlobalData("TxtGameDeveloper");
+		let tmGameDeveloper = gCtx.measureText(txtGameDeveloper); // TextMetrics object
+		let tPos = {x: (iCanvasWidth-tmGameDeveloper.width)/2, y:  ( iCanvasHeight + fsGameDeveloper )/2 };
 		gCtx.fillText( txtGameDeveloper, tPos.x, tPos.y );
 		
 		if(fsGameDeveloper > 100){
@@ -395,7 +242,7 @@ canvas{
 		
 	}
 	
-	var GameDrawScreen3 = function(){
+	let GameDrawScreen3 = function(){
 		
 		//The Game Name
 		//Text for now.
@@ -403,18 +250,18 @@ canvas{
 
 		gCanvas.style.cursor = ''; //show cursor
 		
-		var fsTmpTimer = GetGlobalData("animFontSize1");
+		let fsTmpTimer = GetGlobalData("animFontSize1");
 		SetGlobalData("animFontSize1",fsTmpTimer+1);
 		
-		var fsGameText = GetGlobalData("FontSizePrimary");
+		let fsGameText = GetGlobalData("FontSizePrimary");
 
 		gCtx.fillStyle = GetGlobalData("ColorPrimary");
 		
 		gCtx.font = fsGameText + "px Arial";
 		
-		var txtGameName = GetGlobalData("TxtGameName");
-		var tmGameName = gCtx.measureText(txtGameName); // TextMetrics object
-		var tPos = {x: (iCanvasWidth-tmGameName.width)/2, y:  (( iCanvasHeight + fsGameText )/2) - fsGameText };
+		let txtGameName = GetGlobalData("TxtGameName");
+		let tmGameName = gCtx.measureText(txtGameName); // TextMetrics object
+		let tPos = {x: (iCanvasWidth-tmGameName.width)/2, y:  (( iCanvasHeight + fsGameText )/2) - fsGameText };
 		gCtx.fillText( txtGameName, tPos.x, tPos.y );
 		
 		tPos.y += (fsGameText*2);
@@ -428,21 +275,21 @@ canvas{
 
 	}
 	
-	var GameDrawScreen4 = function(){
+	let GameDrawScreen4 = function(){
 		//The Game Name
 		//The main menu
 
 		gCanvas.style.cursor = ''; //show cursor
 		
-		var fsGameText = GetGlobalData("FontSizePrimary");
+		let fsGameText = GetGlobalData("FontSizePrimary");
 
 		gCtx.fillStyle = GetGlobalData("ColorPrimary");
 		
 		gCtx.font = fsGameText + "px Arial";
 		
-		var txtGameName = GetGlobalData("TxtGameName");
-		var tmGameName = gCtx.measureText(txtGameName); // TextMetrics object
-		var tPos = {x: (iCanvasWidth-tmGameName.width)/2, y:  (( iCanvasHeight + fsGameText )/3) - fsGameText };
+		let txtGameName = GetGlobalData("TxtGameName");
+		let tmGameName = gCtx.measureText(txtGameName); // TextMetrics object
+		let tPos = {x: (iCanvasWidth-tmGameName.width)/2, y:  (( iCanvasHeight + fsGameText )/3) - fsGameText };
 		gCtx.fillText( txtGameName, tPos.x, tPos.y );
 		
 		tPos = {x: (iCanvasWidth-tmGameName.width)/2, y:  (( iCanvasHeight + fsGameText )/2) - fsGameText };
@@ -451,10 +298,10 @@ canvas{
 		GameDrawMainMenu(tPos);
 	}
 	
-	var GameDrawMainMenu = function(tPos){
-		var MainMenu = 	GetGlobalData("MainMenu");
+	let GameDrawMainMenu = function(tPos){
+		let MainMenu = 	GetGlobalData("MainMenu");
 	
-		var fsMenuItem = GetGlobalData("FontSizeTertiary");
+		let fsMenuItem = GetGlobalData("FontSizeTertiary");
 		
 		gCtx.font = fsMenuItem + "px Arial";
 		
@@ -462,14 +309,14 @@ canvas{
 		
 			gCtx.fillStyle = GetGlobalData("ColorPrimary");
 		
-			var txtMenuItem = MainMenu[i];
+			let txtMenuItem = MainMenu[i];
 			
-			var tmMenuItem = gCtx.measureText(txtMenuItem.Text); // TextMetrics object
+			let tmMenuItem = gCtx.measureText(txtMenuItem.Text); // TextMetrics object
 			
 			txtMenuItem.Box.width = tmMenuItem.width;
 			txtMenuItem.Box.height = fsMenuItem;
 			
-			var miPos = {x: (iCanvasWidth-txtMenuItem.Box.width)/2, y:  tPos.y + (fsMenuItem*(i*2))  };
+			let miPos = {x: (iCanvasWidth-txtMenuItem.Box.width)/2, y:  tPos.y + (fsMenuItem*(i*2))  };
 			
 			gCtx.fillText( txtMenuItem.Text, miPos.x, miPos.y );
 			
@@ -486,9 +333,9 @@ canvas{
 		}
 	}
 	
-	var MenuHit = function (mMenu, tPos){
-			var HitX = false;
-			var HitY = false;
+	let MenuHit = function (mMenu, tPos){
+			let HitX = false;
+			let HitY = false;
 			if(tPos.x > mMenu.Box.left){
 				if(tPos.x < mMenu.Box.left+mMenu.Box.width){
 					HitX = true;
@@ -504,12 +351,12 @@ canvas{
 			return false;
 	}
 	
-	var ClickScreen4 = function(cPos){
-		var MainMenu = 	GetGlobalData("MainMenu");
+	let ClickScreen4 = function(cPos){
+		let MainMenu = 	GetGlobalData("MainMenu");
 
 		for(i = 0; i< MainMenu.length; i++){
 		
-			var txtMenuItem = MainMenu[i];
+			let txtMenuItem = MainMenu[i];
 
 			if( MenuHit(txtMenuItem,cPos ) ){			
 				txtMenuItem.Click();
@@ -518,13 +365,13 @@ canvas{
 		}
 	}
 	
-	var MoveScreen4 = function(cPos){
+	let MoveScreen4 = function(cPos){
 
-		var MainMenu = 	GetGlobalData("MainMenu");
+		let MainMenu = 	GetGlobalData("MainMenu");
 
 		for(i = 0; i< MainMenu.length; i++){
 		
-			var txtMenuItem = MainMenu[i];
+			let txtMenuItem = MainMenu[i];
 			
 			txtMenuItem.DrawBullets = false;
 			if(MenuHit(txtMenuItem,cPos)){			
@@ -533,28 +380,28 @@ canvas{
 		}
 	}
 	
-	var GoToStartGameScreen = function(){
+	let GoToStartGameScreen = function(){
 
 		alert('TODO:StartGameScreen');
 		SetGlobalData("activeScreen",5);
 
 	}
 
-	var GoToSettingsScreen = function(){
+	let GoToSettingsScreen = function(){
 
 		alert('TODO:SettingsScreen');
 		SetGlobalData("activeScreen",6);
 
 	}
-	var GoToCreditsScreen = function(){
+	let GoToCreditsScreen = function(){
 
 		alert('TODO:CreditsScreen');
 		SetGlobalData("activeScreen",7);
 
 	}
 	
-	var DrawMenuBullet = function ( BulletPosition ){
-		//var acontext = GameCanvas.getContext("2d");
+	let DrawMenuBullet = function ( BulletPosition ){
+		//let acontext = GameCanvas.getContext("2d");
 				
 		gCtx.beginPath();
 		
@@ -573,13 +420,13 @@ canvas{
 		gCtx.closePath();
 	}
 	
-	var GameInit = function(){
+	let GameInit = function(){
 		SetGlobalData("animFontSize1",GetGlobalData("FontSizePrimary"));
 		SetGlobalData("animFontSize2",GetGlobalData("FontSizeSecondary"));
 		SetGlobalData("activeScreen",1);
 	}
 	
-	var GameInitIndexedDB = function(){
+	let GameInitIndexedDB = function(){
 		
 		//Create indexDB entries for device identifier (just some random number at the moment) 
 		// and persistent keyboard bindings
@@ -588,7 +435,7 @@ canvas{
 			window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 			window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 			
-			var GameName = GetGlobalData("TxtGameName");
+			let GameName = GetGlobalData("TxtGameName");
 			
 			GameName = GameName.replace(" ",".");
 			GameName = GameName.toLocaleLowerCase();
@@ -597,7 +444,7 @@ canvas{
 			
 			gDBOpenReq.onupgradeneeded = function(event) {
 				gDb = event.target.result;
-				var dboStore = gDb.createObjectStore("PlayerBindings", { keyPath: "id" });
+				let dboStore = gDb.createObjectStore("PlayerBindings", { keyPath: "id" });
 				
 				dboStore.createIndex("player", "player", { unique: true });
 				dboStore.createIndex("moveUp", "moveUp", { unique: true });
@@ -616,13 +463,13 @@ canvas{
 				gDb = event.target.result;
 				
 				//check id value
-				var dboTran = gDb.transaction("PlayerBindings","readonly");
-				var dboStore = dboTran.objectStore("PlayerBindings");
-				var dboCursor = dboStore.openCursor();
+				let dboTran = gDb.transaction("PlayerBindings","readonly");
+				let dboStore = dboTran.objectStore("PlayerBindings");
+				let dboCursor = dboStore.openCursor();
 				dboCursor.onsuccess = function(curEvent) {
 					//return device id from store
-					var did = null;
-					var field = curEvent.target.result;
+					let did = null;
+					let field = curEvent.target.result;
 					if(field != null){
 						did = field.value.id;
 						console.log("Device Id:" + did);
@@ -633,17 +480,20 @@ canvas{
 					
 						//Set default bindings
 
-						var dboDIDTran = gDb.transaction("PlayerBindings","readwrite");
-						var dboDIDStore = dboDIDTran.objectStore("PlayerBindings");
-						var objDIDStoreRequest = dboDIDStore.add({ id: 1, player: "player1", moveUp: 87, moveDown: 83, moveLeft: 65, moveRight: 68 });
-						var objDIDStoreRequest = dboDIDStore.add({ id: 2, player: "player2", moveUp: 38, moveDown: 40, moveLeft: 37, moveRight: 39 });
-
+						let dboDIDTran = gDb.transaction("PlayerBindings","readwrite");
+						let dboDIDStore = dboDIDTran.objectStore("PlayerBindings");
+						let objDIDStoreRequest = dboDIDStore.add({ id: 1, player: "player1", moveUp: 87, moveDown: 83, moveLeft: 65, moveRight: 68 });
 						
 						objDIDStoreRequest.onsuccess = function(event) {
-							console.log( "Default Key Bindings saved");
+							console.log( "Default Key Bindings saved for Player 1");
 						};
 						
-
+						let objDIDStoreRequest2 = dboDIDStore.add({ id: 2, player: "player2", moveUp: 38, moveDown: 40, moveLeft: 37, moveRight: 39 });
+						
+						objDIDStoreRequest2.onsuccess = function(event) {
+							console.log( "Default Key Bindings saved for Player 2");
+						};
+						
 
 					}
 				}
@@ -652,12 +502,12 @@ canvas{
 		}
 	}
 	
-	var GameClearCanvas = function(){
+	let GameClearCanvas = function(){
 		gCtx.fillStyle = "#000000";				
 		gCtx.fillRect(0,0,iCanvasWidth,iCanvasHeight);
 	}
 	
-	var GameUpdate = function(){
+	let GameUpdate = function(){
 		GameClearCanvas();
 		GameDrawScreen();
 	}
@@ -665,7 +515,7 @@ canvas{
 	GameInit();
 	
 	//Game Loop
-	var intervalId = setInterval(function(){
+	let intervalId = setInterval(function(){
 		GameUpdate();
 	}, 33.33); //Loop about 30 times per second ( 1,000/30 )
 	

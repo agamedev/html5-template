@@ -1,0 +1,145 @@
+
+$font-primary:  "Gill Sans", sans-serif
+
+$color-body: #333333
+$color-body-dark: #EFEFEF
+$color-primary: #FF0066
+$color-secondary: #A3BA61
+$color-tertiary: #FF9900
+
+$color-bg: #FFFFFF
+$color-bg-black: #000000
+$color-bg-dark: #241C1C
+
+$color-gray: #CCCCCC
+
+$cursor: url(../assets/cursors/cursor.svg)
+
+/* Paddings and Margings */
+
+html,head,body, h1, h2, img.logo, .start, .actions ul li
+	padding: 0
+	margin: 0
+
+header, main, footer
+	padding: 1%
+	
+img.logo
+	margin-right: 1%
+	
+.start
+	margin-top: 1%
+
+/* Positions */
+
+header, main, footer, img.logo
+	position: relative
+
+img.logo
+	float: left
+	
+header::after, article p::after, .clr
+	clear: both
+	
+/* Backgound colors */
+
+body
+	background-color: $color-bg
+
+
+body.dark
+	background-color: $color-bg-dark
+
+
+.big-button
+	background-color: $color-gray
+	
+/* Fonts */
+
+body
+	font-family: $font-primary
+
+h1
+	line-height: 64px
+
+h1 span
+	font-size: 60%
+
+footer
+	font-size: 86%
+
+p.about
+	font-size: 90%
+a
+	font-weight: bold
+	text-decoration: none
+
+a:hover
+	text-decoration: underline
+
+.big-button:hover
+	text-decoration: none
+	
+/* Foreground colors */
+
+body
+	color: $color-body
+
+body.dark
+	color: $color-body-dark
+
+a, h1
+	color: $color-primary
+
+
+.big-button
+	color: $color-body
+
+/* Other */
+
+main
+	display: block
+
+
+h1 span
+	display: block
+
+
+.big-button
+	display: inline
+	position: relative
+	line-height: 16px
+	margin: 0
+	padding: 12px
+	text-decoration: none	
+	border-top: 2px solid $color-body
+	border-left: 2px solid $color-body
+	border-bottom: 2px solid $color-body-dark
+	border-right: 2px solid $color-body-dark
+
+
+.big-button img
+	width: 32px
+	height: 32px
+	padding: 0
+	margin-right: 6px
+	position: relative
+	float: left
+
+.game
+	width: 1024px
+	height: 576px
+	background-color: $color-bg-black
+
+
+.actions ul
+	list-style: none
+	margin-bottom: 12px
+
+
+.actions ul li
+	display: block
+	margin-top: 12px
+
+canvas
+	cursor: $cursor, auto
